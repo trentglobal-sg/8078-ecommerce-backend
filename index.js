@@ -7,6 +7,8 @@ const pool = require('./database');
 
 const app = express();
 
+
+
 // Middleware
 app.use(express.json());
 app.use(cors());
@@ -15,6 +17,13 @@ app.use(cors());
 app.get('/', (req, res) => {
   res.json({ message: "Welcome to the API" });
 });
+
+// import in the routes
+const productRoutes = require('./routes/products');
+
+// register the routes
+app.use("/products", productRoutes);
+
 
 // Start the server
 const PORT = process.env.PORT || 3000;
