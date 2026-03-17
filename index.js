@@ -22,7 +22,7 @@ app.get('/', (req, res) => {
 const productRoutes = require('./routes/products');
 
 // register the routes
-app.use("/products", productRoutes);
+app.use("/api/products", productRoutes);
 
 
 // Start the server
