@@ -1,7 +1,7 @@
 const userData = require('../data/userData');
 const bcrypt = require('bcrypt');
 
-async function registerUser({name, email, password, salutation, marketingPrefences}) {
+async function registerUser({name, email, password, salutation, country, marketingPreferences}) {
     if (password.length < 8) {
         throw new Error("Password must be at least 8 characters long");
     }
@@ -37,6 +37,18 @@ async function loginUser(email, password) {
   return user;
 }
 
+/**
+ * 
+ * @param {*} id 
+ * @param {{
+ *  name:String,
+ *  email:String,
+ *  salutation: String,
+ *  country: String,
+ *  marketingPreferences:[Integer]
+ * }} userDetails 
+ * @returns 
+ */
 async function updateUserDetails(id, userDetails) {
   return await userData.updateUser(id, userDetails);
 }

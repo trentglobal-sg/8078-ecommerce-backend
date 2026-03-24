@@ -12,7 +12,13 @@ async function getUserById(id) {
     if (!id) {
         throw new Error("Invalid userId");
     }
-    const [rows] = await pool.execute(`SELECT * FROM users WHERE id = ?`, [id]);
+    const [rows] = await pool.execute(`
+        SELECT users.id, name, email, salutation, country, GROUP_CONCAT(preference_id) AS marketing_preferences_id FROM users 
+        JOIN user_marketing_preferences ON
+            users.id = user_marketing_preferences.user_id
+        WHERE users.id = ?
+        GROUP BY users.id, name, email, salutation, country;
+        `, [id]);
     return rows[0];
 }
 
@@ -46,6 +52,7 @@ async function createUser({ name, email, password, salutation, country, marketin
         }
 
         await connection.commit();
+        return userId;
     } catch (e) {
         await connection.rollback();
         console.log(e);
@@ -56,6 +63,17 @@ async function createUser({ name, email, password, salutation, country, marketin
 
 }
 
+/**
+ * 
+ * @param {Integer} id 
+ * @param {{
+ *  name:String,
+ *  email:String,
+ *  salutation: String,
+ *  country: String,
+ *  marketingPreferences:[Integer]
+ * }} param
+ */
 async function updateUser(id, { name, email, salutation, country, marketingPreferences }) {
     if (!id || typeof id !== 'number') {
         throw new Error('Invalid user ID');
