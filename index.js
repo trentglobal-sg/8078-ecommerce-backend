@@ -21,10 +21,12 @@ app.get('/', (req, res) => {
 // import in the routes
 const productRoutes = require('./routes/products');
 const userRoutes = require('./routes/users');
+const cartRoutes = require('./routes/cart')
 
 // register the routes
 app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/cart", cartRoutes);
 
 
 // Start the server
