@@ -24,4 +24,4 @@ function AuthenticateWithJWT(req,res,next) {
 
 }   
 
-module.exports = AuthenticateWithJWT;
+module.exports =  AuthenticateWithJWT;
