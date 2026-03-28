@@ -2,15 +2,9 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 
-// import the database pool
-const pool = require('./database');
-
 const app = express();
 
-
-
 // Middleware
-app.use(express.json());
 app.use(cors());
 
 // Routes
@@ -23,12 +17,14 @@ const productRoutes = require('./routes/products');
 const userRoutes = require('./routes/users');
 const cartRoutes = require('./routes/cart')
 const checkoutRoutes = require('./routes/checkout');
+const stripeRoute = require('./routes/stripe');
 
 // register the routes
-app.use("/api/products", productRoutes);
-app.use("/api/users", userRoutes);
-app.use("/api/cart", cartRoutes);
-app.use('/api/checkout', checkoutRoutes);
+app.use("/api/products", [express.json()], productRoutes);
+app.use("/api/users", [express.json()], userRoutes);
+app.use("/api/cart", [express.json()], cartRoutes);
+app.use('/api/checkout', [express.json()], checkoutRoutes);
+app.use('/stripe', stripeRoute);
 
 
 // Start the server

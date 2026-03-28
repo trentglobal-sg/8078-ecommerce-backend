@@ -1,7 +1,5 @@
 // NOTE: Use `2026-02-25.clover`
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
-    apiVersion: '2026-02-25.clover'
-});
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 /**
  * 
